@@ -1,0 +1,14 @@
+[package]
+name = "rtop"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "rtop_lib"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+crossterm = "0.29.0"
+ratatui = "0.30.0"
+sysinfo = "0.39.2"
