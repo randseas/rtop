@@ -1,5 +1,5 @@
 use std::{collections::HashMap, ffi::OsString, path::PathBuf};
-use sysinfo::{Pid, ProcessStatus, System, Uid};
+use sysinfo::{Pid, ProcessRefreshKind, ProcessStatus, ProcessesToUpdate, System, Uid};
 
 pub struct Telemetry {
     // cpu
@@ -100,7 +100,13 @@ pub fn get_metrics(sys: &System) -> Telemetry {
 }
 
 pub fn refresh(sys: &mut System) {
-    sys.refresh_cpu_usage();
+    let refresh_kind = ProcessRefreshKind::nothing()
+        .with_memory()
+        .with_cpu()
+        .with_disk_usage();
+
+    sys.refresh_processes_specifics(ProcessesToUpdate::All, true, refresh_kind);
+    sys.refresh_cpu_all();
     sys.refresh_memory();
 }
 
